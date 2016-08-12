@@ -41,10 +41,11 @@ export class CurrencyMaskDirective {
       Angular is not happy with changing the binding during the change detection round. 
       workaround with setTimeout() so that it happened in another round of change detection.
      */
-    setTimeout(()=> {
-      this.model.viewToModelUpdate(modelValue); //this will trigger ngModelChange
-    });
-
+    if (modelValue !== currentValue || !this.model['value']) {
+      setTimeout(()=> {
+        this.model.viewToModelUpdate(modelValue); //this will trigger ngModelChange
+      });
+    }
 
     // This is the displaying (masked) value
     this.model.valueAccessor.writeValue(maskedValue);
